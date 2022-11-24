@@ -15,7 +15,7 @@ public class ArrayStorage {
     void update(Resume r) {
         Resume existResume = this.get(r.uuid);
         if (existResume == null) {
-            System.out.println("Resume " + r.uuid + " does not exist in array!");
+            System.out.println("Resume '" + r.uuid + "' does not exist in array!");
         }
     }
 
@@ -25,7 +25,7 @@ public class ArrayStorage {
             storage[size] = r;
             size++;
         } else {
-            System.out.println("Resume " + r.uuid + " already exists in array!");
+            System.out.println("Resume '" + r.uuid + "' already exists in array!");
         }
     }
 
@@ -53,6 +53,8 @@ public class ArrayStorage {
 //            }
             storage[size] = null;
             size--;
+        } else {
+            System.out.println("Resume '" + r.uuid + "' does not exist in array!");
         }
     }
 
