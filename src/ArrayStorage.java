@@ -54,7 +54,7 @@ public class ArrayStorage {
             storage[size] = null;
             size--;
         } else {
-            System.out.println("Resume '" + r.uuid + "' does not exist in array!");
+            System.out.println("Resume '" + uuid + "' does not exist in array!");
         }
     }
 
