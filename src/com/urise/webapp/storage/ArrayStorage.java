@@ -9,8 +9,8 @@ import java.util.Arrays;
  */
 
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
-    int size = 0;
+    private Resume[] storage = new Resume[10000];
+    private int size = 0;
 
     public void clear() {
         Arrays.fill(storage, null);
@@ -18,31 +18,35 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        Resume existResume = this.get(r.toString());
-        if (existResume == null) {
-            System.out.println("com.urise.webapp.model.Resume '" + r + "' does not exist in array!");
-        } else {
-            existResume = r; //Просто заменяем объект на новый.
+        boolean found = false;
+        for (int i = 0; i<size; i++){
+            if (storage[i].getUuid().equals(r.getUuid())) {
+                storage[i] = r;
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("com.urise.webapp.model.Resume '" + r.getUuid() + "' does not exist in array!");
         }
     }
 
     public void save(Resume r) {
-        Resume existResume = this.get(r.toString());
+        Resume existResume = this.get(r.getUuid());
         if (existResume == null) {
             if (size >= 1000){
-                System.out.println("com.urise.webapp.model.Resume array overflow: size over 1000!");
+                System.out.println("Resume array overflow: size over 1000!");
             } else {
                 storage[size] = r;
                 size++;
             }
         } else {
-            System.out.println("com.urise.webapp.model.Resume '" + r + "' already exists in array!");
+            System.out.println("Resume '" + r + "' already exists in array!");
         }
     }
 
     public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].toString())) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return storage[i];
             }
         }
@@ -52,7 +56,7 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int removeIndex = -1;
         for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].toString())) {
+            if (uuid.equals(storage[i].getUuid())) {
                 removeIndex = i;
                 break;
             }
@@ -65,7 +69,7 @@ public class ArrayStorage {
             storage[size] = null;
             size--;
         } else {
-            System.out.println("com.urise.webapp.model.Resume '" + uuid + "' does not exist in array!");
+            System.out.println("Resume '" + uuid + "' does not exist in array!");
         }
     }
 
