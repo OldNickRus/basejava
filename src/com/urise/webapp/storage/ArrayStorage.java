@@ -1,31 +1,42 @@
+package com.urise.webapp.storage;
+
+import com.urise.webapp.model.Resume;
+
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
+
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     int size = 0;
 
     void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, null);
         size = 0;
     }
 
     void update(Resume r) {
-        Resume existResume = this.get(r.uuid);
+        Resume existResume = this.get(r.toString());
         if (existResume == null) {
-            System.out.println("Resume '" + r.uuid + "' does not exist in array!");
+            System.out.println("com.urise.webapp.model.Resume '" + r.toString() + "' does not exist in array!");
+        } else {
+            existResume = r; //Просто заменяем объект на новый.
         }
     }
 
     void save(Resume r) {
-        Resume existResume = this.get(r.uuid);
+        Resume existResume = this.get(r.toString());
         if (existResume == null) {
-            storage[size] = r;
-            size++;
+            if (size >= 1000){
+                System.out.println("com.urise.webapp.model.Resume array overflow: size over 1000!");
+            } else {
+                storage[size] = r;
+                size++;
+            }
         } else {
-            System.out.println("Resume '" + r.uuid + "' already exists in array!");
+            System.out.println("com.urise.webapp.model.Resume '" + r.toString() + "' already exists in array!");
         }
     }
 
@@ -54,7 +65,7 @@ public class ArrayStorage {
             storage[size] = null;
             size--;
         } else {
-            System.out.println("Resume '" + uuid + "' does not exist in array!");
+            System.out.println("com.urise.webapp.model.Resume '" + uuid + "' does not exist in array!");
         }
     }
 
