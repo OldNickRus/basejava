@@ -1,3 +1,5 @@
+package com.urise.webapp.model;
+
 /**
  * Initial resume class
  */
@@ -10,4 +12,5 @@ public class Resume {
     public String toString() {
         return uuid;
     }
+    public void setUuid(String value) { uuid = value; }
 }

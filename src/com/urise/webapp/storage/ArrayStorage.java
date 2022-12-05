@@ -12,21 +12,21 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     int size = 0;
 
-    void clear() {
+    public void clear() {
         Arrays.fill(storage, null);
         size = 0;
     }
 
-    void update(Resume r) {
+    public void update(Resume r) {
         Resume existResume = this.get(r.toString());
         if (existResume == null) {
-            System.out.println("com.urise.webapp.model.Resume '" + r.toString() + "' does not exist in array!");
+            System.out.println("com.urise.webapp.model.Resume '" + r + "' does not exist in array!");
         } else {
             existResume = r; //Просто заменяем объект на новый.
         }
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         Resume existResume = this.get(r.toString());
         if (existResume == null) {
             if (size >= 1000){
@@ -36,11 +36,11 @@ public class ArrayStorage {
                 size++;
             }
         } else {
-            System.out.println("com.urise.webapp.model.Resume '" + r.toString() + "' already exists in array!");
+            System.out.println("com.urise.webapp.model.Resume '" + r + "' already exists in array!");
         }
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].toString())) {
                 return storage[i];
@@ -49,7 +49,7 @@ public class ArrayStorage {
         return null;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         int removeIndex = -1;
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].toString())) {
@@ -72,13 +72,13 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         Resume[] resStorage = new Resume[size];
         System.arraycopy(storage, 0, resStorage, 0, size);
         return resStorage;
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 }
