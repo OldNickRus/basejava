@@ -9,11 +9,12 @@ import java.util.Arrays;
  */
 
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private static final int STORAGE_LIMIT = 10000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = 0;
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -30,20 +31,18 @@ public class ArrayStorage {
         int oldIndex = this.getIndex(r.getUuid());
         if (oldIndex != -1) {
             System.out.println("Resume '" + r + "' already exists in storage!");
-            return;
+        } else if (size == storage.length) {
+            System.out.println("Can't save: resume storage overflow!");
+        } else {
+            storage[size] = r;
+            size++;
         }
-        if (size >= 1000){
-            System.out.println("Can't save: resume storage overflow, size over 1000!");
-            return;
-        }
-        storage[size] = r;
-        size++;
     }
 
     public Resume get(String uuid) {
         int retIndex = this.getIndex(uuid);
         if (retIndex == -1) {
-            System.out.println("Resume '" + uuid + "' not found in storage!");
+            System.out.println("Resume '" + uuid + "' not exists in storage!");
             return null;
         }
         return storage[retIndex];
@@ -52,14 +51,12 @@ public class ArrayStorage {
     public void delete(String uuid) {
         int removeIndex = this.getIndex(uuid);
         if (removeIndex == -1) {
-            System.out.println("Resume '" + uuid + "' does not exist in storage!");
+            System.out.println("Resume '" + uuid + "' not exists in storage!");
+        } else {
+            storage[removeIndex] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
         }
-        System.arraycopy(storage, removeIndex + 1, storage, removeIndex, size - removeIndex);
-//            for (int i = removeIndex + 1; i < actualSize; i++) {
-//                storage[i - 1] = storage[i];
-//            }
-        storage[size] = null;
-        size--;
     }
 
     /**
@@ -76,13 +73,11 @@ public class ArrayStorage {
     }
 
     private int getIndex(String uuid) {
-        int index = -1;
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].getUuid())) {
-                index = i;
-                break;
+                return i;
             }
         }
-        return index;
+        return -1;
     }
 }
